@@ -52,3 +52,7 @@ temp/
 # Local agent state is not product source
 .agents/
 .codex/
+
+# Local-only product references pending redistribution review
+/docs/product/references/selected-match-ui-original.png
+/docs/product/references/selected-match-ui-v2.png
