@@ -281,15 +281,24 @@ test("draws live route lines from each piece to its actual remaining waypoint", 
   await page.getByRole("menuitem", { name: /牛角落位/ }).click();
   const routes = page.locator(".route-overlay [data-route-owner]");
   await expect(routes).toHaveCount(5);
-  const path = page.locator("[data-route-owner='h2'] path");
-  const startBefore = (await path.getAttribute("data-route-start"))!.split(",").map(Number);
-  const tokenBefore = await positions(page);
-  expect(distance({ x: startBefore[0], y: startBefore[1] }, tokenBefore.h2)).toBeLessThanOrEqual(0.05);
-  expect(await path.getAttribute("d")).toContain(`M ${startBefore[0].toFixed(2)} ${startBefore[1].toFixed(2)}`);
+  const routeSnapshot = async () => page.evaluate(() => {
+    const path = document.querySelector<SVGPathElement>("[data-route-owner='h2'] path")!;
+    const token = document.querySelector<HTMLElement>("[data-testid='court-token-h2']")!;
+    return {
+      start: path.dataset.routeStart!.split(",").map(Number),
+      d: path.getAttribute("d") ?? "",
+      token: { x: Number(token.dataset.x), y: Number(token.dataset.y) },
+    };
+  });
+  // Read path and token in one browser task so an animation frame cannot land
+  // between two Playwright attribute calls and manufacture a mismatch.
+  const before = await routeSnapshot();
+  expect(distance({ x: before.start[0], y: before.start[1] }, before.token)).toBeLessThanOrEqual(0.05);
+  expect(before.d).toContain(`M ${before.start[0].toFixed(2)} ${before.start[1].toFixed(2)}`);
 
   await page.waitForTimeout(300);
-  const startAfter = (await path.getAttribute("data-route-start"))!.split(",").map(Number);
-  expect(distance({ x: startBefore[0], y: startBefore[1] }, { x: startAfter[0], y: startAfter[1] })).toBeGreaterThan(0.2);
+  const after = await routeSnapshot();
+  expect(distance({ x: before.start[0], y: before.start[1] }, { x: after.start[0], y: after.start[1] })).toBeGreaterThan(0.2);
 });
 
 test("locks input while a screen approaches and resolves coverage only after contact time", async ({ page }) => {

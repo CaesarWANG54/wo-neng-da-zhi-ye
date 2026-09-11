@@ -89,6 +89,27 @@ test("a queued tap cannot hold off the shot-clock violation or fire into the new
   await expect(screen).toHaveAttribute("data-phase", "SET_OFFENSE");
   await expect(screen).toHaveAttribute("data-possession", "home");
 
+  // Stop wall time after mount, then drain the fixture to exactly the narrow
+  // pre-violation window. This keeps slow CI startup out of the interaction
+  // contract while preserving the 0.20s-vs-260ms ordering under test.
+  // Pause at a near-future instant rather than replaying a just-read timestamp:
+  // the clock can advance between two protocol messages on a busy runner.
+  await page.clock.pauseAt(await page.evaluate(() => Date.now() + 1_000));
+  const mountedShotClock = Number(await page.getByTestId("scoreboard").getAttribute("data-shot-clock"));
+  expect(mountedShotClock).toBeGreaterThan(0.26);
+  await page.clock.runFor(Math.max(0, Math.round((mountedShotClock - 0.15) * 1_000)));
+  let preparedShotClock = Number(await page.getByTestId("scoreboard").getAttribute("data-shot-clock"));
+  // rAF advances the authoritative engine in bounded frames, so a single
+  // runFor can stop one frame above the target. Advance explicit 50ms frames
+  // while paused instead of polling a clock that cannot move on its own.
+  for (let frame = 0; frame < 3 && preparedShotClock > 0.2; frame += 1) {
+    await page.clock.runFor(50);
+    preparedShotClock = Number(await page.getByTestId("scoreboard").getAttribute("data-shot-clock"));
+  }
+  expect(preparedShotClock).toBeLessThanOrEqual(0.2);
+  expect(preparedShotClock).toBeGreaterThan(0);
+  await expect(screen).toHaveAttribute("data-phase", "SET_OFFENSE");
+
   // One tap queues a pending pass decision whose deadline outlives the clock.
   await page.getByTestId("action-pass").click();
   await expect(screen).toHaveAttribute("data-pending-tap", "pass");

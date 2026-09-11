@@ -799,9 +799,14 @@ export function advanceCourtMotion(state: MatchState, seconds: number): MatchSta
       nextVelocities[player.id] = velocity;
       nextRoutes[player.id] = route;
       if (route.length === 0) {
-        motion.intents[player.id] = player.id === state.controlledPlayerId
-          ? player.id === state.ballHandlerId ? "HANDLE" : "HOLD"
-          : player.team === state.possession ? (player.id === state.ballHandlerId ? "HANDLE" : "SPACE") : "CONTAIN";
+        // Reaching the fixed catch point does not mean the pass has arrived.
+        // Keep the receiver visibly waiting for the airborne ball until the
+        // engine's explicit PASS_ARRIVAL transfers the handler.
+        motion.intents[player.id] = state.pendingPass?.toPlayerId === player.id
+          ? "RECEIVE"
+          : player.id === state.controlledPlayerId
+            ? player.id === state.ballHandlerId ? "HANDLE" : "HOLD"
+            : player.team === state.possession ? (player.id === state.ballHandlerId ? "HANDLE" : "SPACE") : "CONTAIN";
       }
     }
 

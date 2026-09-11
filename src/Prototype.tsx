@@ -2620,12 +2620,11 @@ function createInitialState(
   }
   if (fixture === "offball") return { ...state, ballHandlerId: "h3" };
   if (fixture === "tap-expiry") {
-    // Live home possession whose shot clock dies inside a single 260ms
-    // double-tap arbitration window: 0.20s expires at ~200ms of game time,
-    // strictly before a first tap's pending deadline. Regression fixture for
-    // clock/input fairness: no queued tap may hold off the violation, and no
-    // stale action may fire into the new away possession.
-    return { ...state, gameSeconds: 60, shotClock: 0.2 };
+    // Give the browser harness enough live time to mount before it pauses and
+    // deterministically advances this fixture to at most 0.20s. The assertion
+    // exercises expiry inside one 260ms double-tap arbitration window without
+    // depending on runner startup speed.
+    return { ...state, gameSeconds: 60, shotClock: 5 };
   }
   if (fixture === "defense") return { ...state, possession: "away", ballHandlerId: "a7" };
   if (fixture === "free-throw") {
