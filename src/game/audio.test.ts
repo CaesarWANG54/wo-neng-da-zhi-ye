@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { publicAssetPath } from "../asset-path";
 import { AUDIO_ASSET_PATHS, isSwishEventKind, shouldPlayCourtAmbience } from "./audio";
 import type { PossessionPhase } from "./types";
 
@@ -28,9 +29,9 @@ describe("court audio policy", () => {
 
   it("keeps only the approved dribble and swish media, both same-origin", () => {
     expect(AUDIO_ASSET_PATHS).toEqual({
-      dribble: "/assets/audio/court-dribble.mp3",
-      swish: "/assets/audio/basket-swish.mp3",
+      dribble: publicAssetPath("assets/audio/court-dribble.mp3"),
+      swish: publicAssetPath("assets/audio/basket-swish.mp3"),
     });
-    expect(Object.values(AUDIO_ASSET_PATHS).every((path) => path.startsWith("/assets/audio/") && !path.includes("://"))).toBe(true);
+    expect(Object.values(AUDIO_ASSET_PATHS).every((path) => path.includes("/assets/audio/") && !path.includes("://"))).toBe(true);
   });
 });

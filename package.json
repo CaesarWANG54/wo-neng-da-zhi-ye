@@ -10,8 +10,10 @@
     "update:runtime-lock": "node scripts/update-mobile-runtime-lock.mjs",
     "test:runtime": "node scripts/run-playwright.mjs",
     "test:native": "node scripts/run-playwright.mjs --config=playwright.native.config.ts",
+    "test:pages-runtime": "node scripts/run-pages-playwright.mjs",
     "test:core": "vitest run src/game",
     "check:content": "node scripts/check-game-content.mjs",
+    "check:pages": "node scripts/check-github-pages-build.mjs",
     "verify": "npm run test && npm run build",
     "test": "npm run test:core && npm run test:runtime",
     "test:sites": "node --test tests/sites-worker.test.mjs",
@@ -24,8 +26,10 @@
     "dev": "vite --host 127.0.0.1",
     "predev:iphone": "npm run check:runtime",
     "dev:iphone": "vite --host 0.0.0.0 --port 4173 --strictPort",
+    "preview:pages": "vite preview --base=/wo-neng-da-zhi-ye/ --host 127.0.0.1 --port 4175 --strictPort",
     "prebuild": "npm run check:runtime",
     "build": "tsc && vite build && node scripts/prepare-sites-build.mjs",
+    "build:pages": "npm run check:runtime && tsc && vite build --base=/wo-neng-da-zhi-ye/ && npm run check:pages && npm run check:content",
     "postbuild": "npm run check:content"
   },
   "dependencies": {
