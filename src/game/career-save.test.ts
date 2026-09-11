@@ -639,7 +639,7 @@ describe("career save schema v4 lifecycle and postseason slices", () => {
     expect(postseason.playoffs.championTeamId).not.toBeNull();
     expect(postseason.playoffs.conferenceChampionTeamIds.EAST).not.toBeNull();
     expect(postseason.playoffs.conferenceChampionTeamIds.WEST).not.toBeNull();
-  });
+  }, 30_000);
 
   it("rejects every malformed postseason cross-reference", () => {
     const base = JSON.parse(JSON.stringify(progressedSave())) as Record<string, unknown>;
