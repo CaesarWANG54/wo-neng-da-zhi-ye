@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "assetId": "AUDIO_001",
+  "status": "APPROVED_DEV",
+  "reviewedAt": "2026-09-02",
+  "license": {
+    "id": "CC0-1.0",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "attributionRequired": false
+  },
+  "assets": [
+    {
+      "file": "court-dribble.mp3",
+      "sha256": "287d4ed4e59ebc364b815bcc4e9e974ed0444cb26450dab65ee05d56a2b2b33d",
+      "title": "Dribbling basketball",
+      "creator": "OBXJohn",
+      "sourcePage": "https://freesound.org/people/OBXJohn/sounds/262507/",
+      "downloadedFrom": "https://cdn.freesound.org/previews/262/262507_3719168-lq.mp3",
+      "intendedUse": "low-volume live-play ambience"
+    },
+    {
+      "file": "basket-swish.mp3",
+      "sha256": "e783036daaafa3f78b2955a0c241ce5fdde80601a254bac85e08897c687f8729",
+      "title": "Basketball Swish",
+      "creator": "vhschool2019",
+      "sourcePage": "https://freesound.org/people/vhschool2019/sounds/716930/",
+      "downloadedFrom": "https://cdn.freesound.org/previews/716/716930_9589340-lq.mp3",
+      "intendedUse": "made field goal and made free throw cue"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "assetId": "COURT_ART_001",
+  "status": "APPROVED_DEV",
+  "assets": [
+    {
+      "file": "paper-court.webp",
+      "assetId": "COURT_ART_001",
+      "purpose": "原创纸感全场战术板背景",
+      "sourcePath": "docs/product/references/paper-court-source.png",
+      "sourceSha256": "e544b2119a36571c9dd96a0961b0171c2c7c6cfc6205c4e43e9ff0d9cb70b53e",
+      "encoding": "WebP q90, 1844x853",
+      "sha256": "0f552f32cefcfa70ead46e05715aee5ffe178073a79706af81e62906570676c1"
+    }
+  ]
+}

@@ -1,0 +1,105 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  CI: "true"
+
+jobs:
+  integrity-core-build:
+    name: Integrity, core and build (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - windows-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Use Node.js 24.14.1
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .node-version
+          cache: npm
+      - name: Install locked dependencies
+        run: npm ci
+      - name: Audit high-severity dependency advisories
+        if: runner.os == 'Linux'
+        run: npm audit --audit-level=high
+      - name: Check repository release hygiene
+        run: node scripts/release-readiness.mjs
+      - name: Verify third-party notices
+        run: npm run check:notices
+      - name: Verify release-gate regression rules
+        run: npm run test:release
+      - name: Verify protected mobile runtime
+        run: npm run check:runtime
+      - name: Run deterministic core tests
+        run: npm run test:core
+      - name: Build production and Sites outputs
+        run: npm run build
+      - name: Verify Sites worker contract
+        run: npm run test:sites
+
+  desktop-chromium:
+    name: Desktop runtime (Chromium)
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Use Node.js 24.14.1
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .node-version
+          cache: npm
+      - name: Install locked dependencies
+        run: npm ci
+      - name: Install Chromium and system dependencies
+        run: ./node_modules/.bin/playwright install --with-deps chromium
+      - name: Verify protected mobile runtime
+        run: npm run check:runtime
+      - name: Run desktop interaction suite
+        run: npm run test:runtime
+
+  native-webkit:
+    name: Native iPhone geometry (WebKit)
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Use Node.js 24.14.1
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .node-version
+          cache: npm
+      - name: Install locked dependencies
+        run: npm ci
+      - name: Install WebKit and system dependencies
+        run: ./node_modules/.bin/playwright install --with-deps webkit
+      - name: Verify protected mobile runtime
+        run: npm run check:runtime
+      - name: Run native landscape suite
+        run: npm run test:native
