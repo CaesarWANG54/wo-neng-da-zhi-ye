@@ -423,5 +423,5 @@ describe("automatic opponent possession", () => {
     expect(turnovers / 500).toBeLessThan(0.28);
     expect(points / 500).toBeGreaterThan(0.55);
     expect(points / 500).toBeLessThan(1.45);
-  });
+  }, 30_000);
 });

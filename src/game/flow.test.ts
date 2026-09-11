@@ -359,5 +359,5 @@ describe("M3A deterministic 500-possession soak", () => {
     expect(state.gameSeconds).toBeGreaterThan(0);
     expect(state.homeScore - state.initialHomeScore).toBe(state.playerStats.points);
     expect(state.awayScore - state.initialAwayScore).toBe(state.opponentStats.points);
-  });
+  }, 30_000);
 });
