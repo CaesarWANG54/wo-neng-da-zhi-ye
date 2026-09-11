@@ -1,0 +1,17 @@
+# Repository-wide owner. Enforcement requires a GitHub ruleset or branch protection rule.
+* @CaesarWANG54
+
+# Protect governance, release, rights and distribution surfaces explicitly.
+/.github/ @CaesarWANG54
+/scripts/ @CaesarWANG54
+/docs/rights/ @CaesarWANG54
+/docs/release/ @CaesarWANG54
+/public/assets/ @CaesarWANG54
+/LICENSE @CaesarWANG54
+/COPYRIGHT.md @CaesarWANG54
+/TRADEMARKS.md @CaesarWANG54
+/ASSET_LICENSE.md @CaesarWANG54
+/NOTICE.md @CaesarWANG54
+/CONTRIBUTOR_POLICY.md @CaesarWANG54
+/package.json @CaesarWANG54
+/package-lock.json @CaesarWANG54

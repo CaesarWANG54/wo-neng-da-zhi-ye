@@ -1,0 +1,54 @@
+# Dependencies and package-manager caches
+node_modules/
+.npm/
+.pnpm-store/
+
+# Generated builds and coverage
+dist/
+coverage/
+.nyc_output/
+*.tsbuildinfo
+
+# Browser tests and local QA evidence
+test-results/
+playwright-report/
+blob-report/
+qa-artifacts/
+
+# Local logs and crash reports
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment files and local secrets
+.env
+.env.*
+!.env.example
+!.env.*.example
+.dev.vars
+.dev.vars.*
+
+# Editors and operating-system metadata
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Tool caches and temporary work
+.cache/
+.vite/
+.wrangler/
+.tmp/
+tmp/
+temp/
+*.tmp
+
+# Local agent state is not product source
+.agents/
+.codex/

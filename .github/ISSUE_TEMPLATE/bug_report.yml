@@ -1,0 +1,63 @@
+name: 公测问题反馈
+description: 报告可复现的游戏、界面或存档问题
+title: "[Bug] "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢反馈。请勿上传密码、令牌、真实个人信息、授权合同或未公开设备日志。
+  - type: input
+    id: version
+    attributes:
+      label: 版本或提交
+      description: 设置页显示的版本、发行标签或提交短 SHA。
+      placeholder: 例如 0.1.0-beta.1 / abc1234
+    validations:
+      required: true
+  - type: input
+    id: device
+    attributes:
+      label: 设备与系统
+      placeholder: 例如 iPhone 15 Pro / iOS 20
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: 浏览器与横屏尺寸
+      placeholder: 例如 Safari / 852×393 横屏
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: 复现步骤
+      placeholder: 从打开游戏开始，逐步写出点击和选择。
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: 预期结果
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: 实际结果
+    validations:
+      required: true
+  - type: textarea
+    id: save_scope
+    attributes:
+      label: 存档与频率
+      description: 是否可在新存档复现、发生频率，以及是否在刷新、锁屏或旋转后出现；不要粘贴完整 localStorage。
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: 信息确认
+      options:
+        - label: 我已移除凭据、个人信息和许可合同。
+          required: true
