@@ -17,6 +17,7 @@ import { UsersThreeIcon } from "@phosphor-icons/react/dist/csr/UsersThree";
 import { XIcon } from "@phosphor-icons/react/dist/csr/X";
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ComponentType, type CSSProperties, type ReactNode } from "react";
 import { createPortal } from "react-dom";
+import { publicAssetPath } from "./asset-path";
 import { KeyboardInput, MobileScroll } from "./mobile";
 import { TrainingCenter } from "./TrainingCenter";
 import { configureCreatedPlayer, homeSetFormation, initialMatchState, playerById, playerDisplayNames, players } from "./game/data";
@@ -1802,7 +1803,7 @@ function PlayerCreationScreen({
       <main className="career-shell creation-shell" data-testid="player-creation-screen">
         <header className="career-header">
           <div><span className="career-kicker">生涯起点 · 01</span><h1>创建你的球员</h1></div>
-          <p>选位置、打法与号码。教学赛会临时体验成熟版本，正式生涯按70左右的新秀能力开始。</p>
+          <p>玩家娱乐版 · 非官方开发预览。选位置、打法与号码；正式生涯按70左右的新秀能力开始。</p>
         </header>
         {notice ? <p className="career-save-notice" role="status" data-testid="career-save-status">{notice}</p> : null}
         <div className="creation-grid">
@@ -3301,7 +3302,7 @@ function TacticalBoard({
     >
       <img
         className="court-background"
-        src="/assets/game/paper-court.webp"
+        src={publicAssetPath("assets/game/paper-court.webp")}
         alt="原创纸感篮球战术球场"
         decoding="async"
         fetchPriority="high"

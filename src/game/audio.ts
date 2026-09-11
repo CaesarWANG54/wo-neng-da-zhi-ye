@@ -1,8 +1,9 @@
+import { publicAssetPath } from "../asset-path";
 import type { PossessionPhase } from "./types";
 
 export const AUDIO_ASSET_PATHS = {
-  dribble: "/assets/audio/court-dribble.mp3",
-  swish: "/assets/audio/basket-swish.mp3",
+  dribble: publicAssetPath("assets/audio/court-dribble.mp3"),
+  swish: publicAssetPath("assets/audio/basket-swish.mp3"),
 } as const;
 
 type AudioAssetId = keyof typeof AUDIO_ASSET_PATHS;
